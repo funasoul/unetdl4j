@@ -1,3 +1,5 @@
+package org.sbml.spatial.segmentation;
+
 import org.datavec.api.io.labels.PathLabelGenerator;
 import org.datavec.api.writable.NDArrayWritable;
 import org.datavec.api.writable.Writable;
