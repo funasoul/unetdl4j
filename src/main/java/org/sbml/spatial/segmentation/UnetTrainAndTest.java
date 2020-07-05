@@ -1,4 +1,4 @@
-package com.tisUnet;
+package org.sbml.spatial.segmentation;
 
 import org.datavec.api.split.FileSplit;
 import org.datavec.image.loader.BaseImageLoader;
