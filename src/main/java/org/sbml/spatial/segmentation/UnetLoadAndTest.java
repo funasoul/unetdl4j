@@ -1,4 +1,4 @@
-package com.tisUnet;
+package org.sbml.spatial.segmentation;
 
 
 import org.datavec.image.loader.NativeImageLoader;
