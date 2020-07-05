@@ -52,7 +52,8 @@ public class TrainUnetModel {
   private static final Logger log = LoggerFactory.getLogger(TrainUnetModel.class);
   private static final int WIDTH = 128;
   private static final int HEIGHT = 128;
-  private static final int CHANNELS = 3;
+  //private static final int CHANNELS = 3;
+  private static final int CHANNELS = 1; //for 1 input channel
   //private static final String MODEL_PATH = System.getProperty("user.home") + "/unet/unet_membrane.hdf5";
   //private static final String IMAGES_PATH = System.getProperty("user.home") + "/unet/data/membrane/train/aug";
 
@@ -138,8 +139,14 @@ public class TrainUnetModel {
       int numberOfChannels = 1;
       int numEpochs = 1;
 
-      ComputationGraph model  = UNet.builder().updater(new Adam(1e-4)).build().init();
+      //ComputationGraph model  = UNet.builder().updater(new Adam(1e-4)).build().init();
       //	            ComputationGraph model  = UNet.builder().updater(new Adam(new MapSchedule(ScheduleType.ITERATION, learningScheduleMap))).build().init();
+      
+      
+      //To change the number of input channels from 3 to 1
+      ZooModel unet = UNet.builder().build();
+	    unet.setInputShape(new int[][]{{1, 128, 128}});
+	    ComputationGraph model = (ComputationGraph) unet.init();
       model.addListeners(new ScoreIterationListener());
       model.fit(imageDataSetIterator,numEpochs);
 
