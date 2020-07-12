@@ -110,7 +110,21 @@ public class UnetIOU {
             float iou = (float)intersection/union;
             
             System.out.println("Intersection over Union");
-            System.out.println(iou); 
+            System.out.println(iou);
+	    
+            //Calculating the Dice coefficient
+            int countGT = gTruth.scan(Conditions.greaterThan(0.0)).intValue();
+            int countInf = inferred.scan(Conditions.greaterThan(0.0)).intValue();
+            //long elementsGT = gTruth.length();
+            //long elementsInf = inferred.length();
+            //long total = elementsGT + elementsInf;
+            int total = countGT + countInf;
+            float Dice = (float)2*intersection/total;
+            
+            System.out.println("Dice Coefficient");
+            System.out.println(Dice);
+            
+            
         } catch (Exception e) {
             System.err.println("Oooooops");
             e.printStackTrace();
