@@ -147,7 +147,10 @@ public class TrainUnetModel {
       ZooModel unet = UNet.builder().build();
 	    unet.setInputShape(new int[][]{{1, 128, 128}});
 	    ComputationGraph model = (ComputationGraph) unet.init();
-      model.addListeners(new ScoreIterationListener());
+	    UIServer uiServer = UIServer.getInstance();
+	    StatsStorage ss = new InMemoryStatsStorage();
+	    uiServer.attach(ss);
+	    model.addListeners(new ScoreIterationListener(),new StatsListener(ss));
       model.fit(imageDataSetIterator,numEpochs);
 
       log.warn(model.summary());
