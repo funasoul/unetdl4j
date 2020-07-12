@@ -120,6 +120,7 @@ public class UnetIOU {
             //long total = elementsGT + elementsInf;
             int total = countGT + countInf;
             float Dice = (float)2*intersection/total;
+            //float Dice = (2*iou)/(iou+1);
             
             System.out.println("Dice Coefficient");
             System.out.println(Dice);
