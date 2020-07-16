@@ -1,4 +1,4 @@
-package com.bugsAreWelcome;
+package org.sbml.spatial.segmentation;
 
 
 import org.datavec.api.io.filters.BalancedPathFilter;
@@ -152,12 +152,8 @@ public class LearningKfold {
 
             //Now saving the model weights so that it can be tested later with the corresponding testfold. Need a method to save the testfold so that the images and labels can be separated. 
             File locationTosave = new File("C:\\Users\\Subroto\\Desktop\\unetSave"+ "["+ testFold +"]" + ".zip"); //So that I know which testFold to test this model against
-            
             boolean saveUpdater = false;
-            
-            //ModelSerializer needs Model name, saveUpdater ad Location of saving the model
-            
-            //ModelSerializer.writeModel(model,locationTosave,saveUpdater);
+            ModelSerializer.writeModel(model,locationTosave,saveUpdater);
             testFold++;
             }
            
