@@ -104,7 +104,7 @@ public class LearningKfold {
             }
 
             DataNormalization scaler = new ImagePreProcessingScaler(); // scale image between 0 and 1
-            UNetPathLabelGenerator labeler = new UNetPathLabelGenerator();
+            UnetPathLabelGenerator labeler = new UnetPathLabelGenerator();
             File rootDir = new File("C:\\Users\\Subroto\\Desktop\\small_dataset");
             String[] allowedExtensions = BaseImageLoader.ALLOWED_FORMATS;
             Random rng = new Random();
