@@ -58,9 +58,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LearningKfold {
+public class crossVal {
 	
-	private static final Logger log = LoggerFactory.getLogger(LearningKfold.class);
+	private static final Logger log = LoggerFactory.getLogger(crossVal.class);
     private static final int WIDTH = 128;
     private static final int HEIGHT = 128;
     private static final int CHANNELS = 3;
