@@ -72,7 +72,7 @@ public class crossVal {
             int batchSize = 1;
             
             DataNormalization scaler = new ImagePreProcessingScaler(); // scale image between 0 and 1
-            UNetPathLabelGenerator labeler = new UNetPathLabelGenerator();
+            UnetPathLabelGenerator labeler = new UnetPathLabelGenerator();
             File rootDir = new File("C:\\Users\\Subroto\\Desktop\\small_dataset");
             String[] allowedExtensions = BaseImageLoader.ALLOWED_FORMATS;
             Random rng = new Random();
@@ -142,9 +142,9 @@ public class crossVal {
             	}
                 else
                 {
-                	//System.out.println("fitting model");  Model gets trained on all folds except the testFold
-                	model.addListeners(new ScoreIterationListener());
-                	model.fit(set[i], numEpochs);    
+                	System.out.println("fitting model");  //Model gets trained on all folds except the testFold
+                	//model.addListeners(new ScoreIterationListener());
+                	//model.fit(set[i], numEpochs);    
                }
                 
             } 

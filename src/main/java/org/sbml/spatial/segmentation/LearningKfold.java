@@ -1,4 +1,4 @@
-package package org.sbml.spatial.segmentation;;
+package org.sbml.spatial.segmentation;
 
 
 import org.datavec.api.io.filters.BalancedPathFilter;
@@ -199,8 +199,8 @@ public class LearningKfold {
                 else
                 {
                 	System.out.println("fitting model");
-                	model.addListeners(new ScoreIterationListener());
-                	model.fit(set[i], numEpochs);    
+                	//model.addListeners(new ScoreIterationListener());
+                	//model.fit(set[i], numEpochs);    
                }
                 
             } 

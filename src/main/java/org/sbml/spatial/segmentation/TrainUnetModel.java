@@ -17,10 +17,12 @@ import org.deeplearning4j.optimize.listeners.ScoreIterationListener;
 import org.deeplearning4j.ui.api.UIServer;
 import org.deeplearning4j.ui.model.stats.StatsListener;
 import org.deeplearning4j.ui.model.storage.FileStatsStorage;
+import org.deeplearning4j.ui.model.storage.InMemoryStatsStorage;
 import org.nd4j.linalg.learning.config.Adam;
 import org.nd4j.linalg.learning.config.Adam;
 import org.deeplearning4j.util.ModelSerializer;
 import org.deeplearning4j.zoo.PretrainedType;
+import org.deeplearning4j.zoo.ZooModel;
 import org.deeplearning4j.zoo.model.UNet;
 import org.nd4j.linalg.activations.Activation;
 import org.nd4j.linalg.api.buffer.DataType;
@@ -147,11 +149,11 @@ public class TrainUnetModel {
       ZooModel unet = UNet.builder().build();
 	    unet.setInputShape(new int[][]{{1, 128, 128}});
 	    ComputationGraph model = (ComputationGraph) unet.init();
-	    UIServer uiServer = UIServer.getInstance();
+	    
 	    StatsStorage ss = new InMemoryStatsStorage();
 	    uiServer.attach(ss);
-	    model.addListeners(new ScoreIterationListener(),new StatsListener(ss));
-      model.fit(imageDataSetIterator,numEpochs);
+	    //model.addListeners(new ScoreIterationListener(),new StatsListener(ss));
+      //model.fit(imageDataSetIterator,numEpochs);
 
       log.warn(model.summary());
 
@@ -164,7 +166,7 @@ public class TrainUnetModel {
       imageNative = imageNative.reshape(1, CHANNELS, HEIGHT, WIDTH);
       imageNative = imageNative.divi(255f);
 
-      INDArray[] output = model.output(imageNative);
+     /*INDArray[] output = model.output(imageNative);
       //INDArray sigmoid = Transforms.sigmoid(output);
       for (INDArray out : output) {
         out = out.reshape(1, HEIGHT,WIDTH);
@@ -185,7 +187,7 @@ public class TrainUnetModel {
         ImageIO.write(bufferedImage,"png",new File("C:\\Users\\Subroto\\Desktop\\outputUnet3.png"));
         //	                float[] values = out.toFloatVector();
         //	                System.out.println(Arrays.toString(values));
-      }
+      }*/
     } catch (Exception e) {
       System.err.println("Oooooops");
       e.printStackTrace();
