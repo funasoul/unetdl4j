@@ -4,11 +4,8 @@ import org.datavec.api.split.FileSplit;
 import org.datavec.image.loader.BaseImageLoader;
 import org.datavec.image.recordreader.ImageRecordReader;
 import org.deeplearning4j.nn.graph.ComputationGraph;
-import org.deeplearning4j.core.storage.StatsStorage;
 import org.deeplearning4j.datasets.datavec.RecordReaderDataSetIterator;
 import org.deeplearning4j.optimize.listeners.ScoreIterationListener;
-import org.deeplearning4j.ui.api.UIServer;
-import org.deeplearning4j.ui.model.storage.FileStatsStorage;
 import org.deeplearning4j.util.ModelSerializer;
 import org.nd4j.linalg.learning.config.Adam;
 import org.deeplearning4j.zoo.model.UNet;
@@ -28,7 +25,7 @@ import java.util.Map;
 //This class is for training the UNet model on any number of images and then saving it.
 public class UnetTrainAndSave {
 
-	 private static final Logger log = LoggerFactory.getLogger(UnetTrainAndSave.class);
+	    private static final Logger log = LoggerFactory.getLogger(UnetTrainAndSave.class);
 	    private static final int WIDTH = 128;
 	    private static final int HEIGHT = 128;
 	    private static final int CHANNELS = 3;
@@ -63,11 +60,12 @@ public class UnetTrainAndSave {
 	    public static void main(String[] args) {
 	        try {
 	            int batchSize = 10;
+	            String home = System.getProperty("user.home");
 
 	            DataNormalization scaler = new ImagePreProcessingScaler(); // scale image between 0 and 1
 	            UnetPathLabelGenerator labeler = new UnetPathLabelGenerator();
 
-	            File rootDir = new File("C:\\Users\\Subroto\\Desktop\\yo_train");
+	            File rootDir = new File(home + File.separator + "Desktop" + File.separator + "small_dataset");
 	            String[] allowedExtensions = BaseImageLoader.ALLOWED_FORMATS;
 	            Random rng = new Random();
 	            FileSplit inputSplit = new FileSplit(rootDir,allowedExtensions,rng);
@@ -98,7 +96,7 @@ public class UnetTrainAndSave {
 	            log.info("*****SAVE MODEL******");
 	            
 	            //Location for saving the model
-	            File locationTosave = new File("C:\\Users\\Subroto\\Desktop\\unet_save2.zip");
+	            File locationTosave = new File(home + File.separator + "Desktop" + File.separator + "unetSave.zip");
 	            boolean saveUpdater = false;
 	            //ModelSerializer needs Model name, Location of saving the model and saveUpdater. 
 	            ModelSerializer.writeModel(model,locationTosave,saveUpdater);

@@ -1,61 +1,27 @@
 package org.sbml.spatial.segmentation;
 
-
 import org.datavec.api.io.filters.BalancedPathFilter;
 import org.datavec.api.split.FileSplit;
 import org.datavec.api.split.InputSplit;
 import org.datavec.image.loader.BaseImageLoader;
 import org.datavec.image.loader.NativeImageLoader;
 import org.datavec.image.recordreader.ImageRecordReader;
-import org.deeplearning4j.common.resources.DL4JResources;
-import org.deeplearning4j.core.storage.StatsStorage;
 import org.deeplearning4j.datasets.datavec.RecordReaderDataSetIterator;
-import org.deeplearning4j.nn.api.Layer;
-import org.deeplearning4j.nn.conf.layers.CnnLossLayer;
 import org.deeplearning4j.nn.graph.ComputationGraph;
-import org.deeplearning4j.nn.graph.vertex.GraphVertex;
-import org.deeplearning4j.nn.transferlearning.TransferLearning;
-import org.deeplearning4j.optimize.listeners.PerformanceListener;
 import org.deeplearning4j.optimize.listeners.ScoreIterationListener;
-import org.deeplearning4j.ui.api.UIServer;
-import org.deeplearning4j.ui.model.stats.StatsListener;
-import org.deeplearning4j.ui.model.storage.FileStatsStorage;
-import org.deeplearning4j.ui.model.storage.InMemoryStatsStorage;
-import org.nd4j.linalg.learning.config.Adam;
-import org.nd4j.linalg.learning.config.Adam;
 import org.deeplearning4j.util.ModelSerializer;
-import org.deeplearning4j.zoo.PretrainedType;
-import org.deeplearning4j.zoo.ZooModel;
+import org.nd4j.linalg.learning.config.Adam;
 import org.deeplearning4j.zoo.model.UNet;
-import org.nd4j.evaluation.classification.Evaluation;
-import org.nd4j.evaluation.classification.ROCMultiClass;
-import org.nd4j.linalg.activations.Activation;
-import org.nd4j.linalg.api.buffer.DataType;
 import org.nd4j.linalg.api.ndarray.INDArray;
-import org.nd4j.linalg.dataset.api.DataSet;
-import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
-import org.nd4j.linalg.dataset.api.iterator.KFoldIterator;
-import org.nd4j.linalg.dataset.api.iterator.MultipleEpochsIterator;
 import org.nd4j.linalg.dataset.api.preprocessor.DataNormalization;
 import org.nd4j.linalg.dataset.api.preprocessor.ImagePreProcessingScaler;
-import org.nd4j.linalg.factory.Nd4j;
-import org.nd4j.linalg.lossfunctions.LossFunctions;
-import org.nd4j.linalg.ops.transforms.Transforms;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
-
 import javax.imageio.ImageIO;
-import javax.swing.*;
-
-import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.util.*;
-import java.util.List;
 
 public class LearningKfold {
 	
@@ -93,19 +59,21 @@ public class LearningKfold {
    
 	public static void main(String[] args) {
 		try {
-            int outputNum = 2; // 0 = cell; 1 = limit
+            
             int batchSize = 1;
+            String home = System.getProperty("user.home");
+ 
             String pathToImage;
             if (args.length > 0) {
-                // we provided a filename containing model
                 pathToImage = args[0];
             } else {
-                pathToImage = "C:\\Users\\Subroto\\Desktop\\Cell images\\F01_202w1_crop17.tif";
+                pathToImage = home + File.separator + "Desktop" + File.separator + "Cell images" + File.separator + "F01_202w1_crop17.tif";
+                //System.out.println(pathToImage);    
             }
 
             DataNormalization scaler = new ImagePreProcessingScaler(); // scale image between 0 and 1
             UnetPathLabelGenerator labeler = new UnetPathLabelGenerator();
-            File rootDir = new File("C:\\Users\\Subroto\\Desktop\\small_dataset");
+            File rootDir = new File(home + File.separator + "Desktop" + File.separator + "small_dataset");
             String[] allowedExtensions = BaseImageLoader.ALLOWED_FORMATS;
             Random rng = new Random();
             FileSplit fileSplit = new FileSplit(rootDir,allowedExtensions,rng);
@@ -113,25 +81,10 @@ public class LearningKfold {
 
             
             int i, k = 4;
-            
             double[] folds = new double[k];
-            
-    		Arrays.fill(folds, 44 / k);
-
-    		InputSplit[] filesInDirSplit = fileSplit.sample(pathFilter, folds);
+            Arrays.fill(folds, 44 / k);
+            InputSplit[] filesInDirSplit = fileSplit.sample(pathFilter, folds);
     		
-    		
-    		
-    		/*for( i = 0; i < k; i++)
-    		{
-    			URI[] loc = filesInDirSplit[i].locations();
-    			System.out.println("Hopefully location for split" + i + "number");
-    			System.out.println(loc);
-    			long len = filesInDirSplit[i].length();
-    			System.out.println("Hopefully size for split" + i + "number");
-    			System.out.println(len);
-    			filesInDirSplit[i].addNewLocation("C:\\Users\\Subroto\\Desktop\\set");
-    		}*/
     		
     		ImageRecordReader[] imageReader = new ImageRecordReader[k];
     		for( i = 0; i < k; i++) {
@@ -147,8 +100,6 @@ public class LearningKfold {
     		RecordReaderDataSetIterator[] set = new RecordReaderDataSetIterator[k];
     		for( i = 0; i < k; i++) {
     			set[i] = new RecordReaderDataSetIterator(imageReader[i], batchSize, 1, 1, true);
-    			//File setSaver = new File("C:\\Users\\Subroto\\Desktop\\set["+ i +"]");
-    			
     			scaler.fit(set[i]);
                 set[i].setPreProcessor(scaler);
     			
@@ -180,72 +131,37 @@ public class LearningKfold {
             learningScheduleMap.put(800, 0.0000001);
 //            learningScheduleMap.put(1000, 0.00001);
 
-            
-            
-           
-            
+
     		int testFold=0;
-            /*model.addListeners(new ScoreIterationListener());*/
             while(testFold<k){
             	System.out.println("Testfold number:" + testFold + "   k value: " + k);
        
-            ComputationGraph model  = UNet.builder().updater(new Adam(1e-4)).build().init();
-            System.out.println("Initializing new model");
-            for(i=0; i<k; i++) {
-                if(i==testFold){
-                	System.out.println("i number:" + i + "   k value: " + k);
-            	    continue;
-            	}
-                else
-                {
-                	System.out.println("fitting model");
-                	//model.addListeners(new ScoreIterationListener());
-                	//model.fit(set[i], numEpochs);    
-               }
-                
-            } 
+                ComputationGraph model  = UNet.builder().updater(new Adam(1e-4)).build().init();
+                System.out.println("Initializing new model");
+                for(i=0; i<k; i++) {
+                    if(i==testFold){
+                	       System.out.println("i number:" + i + "   k value: " + k);
+            	           continue;
+            	    }
+                    else
+                    {
+                	       System.out.println("fitting model");
+                	       model.addListeners(new ScoreIterationListener());
+                	       model.fit(set[i], numEpochs);    
+                    }    
+                  } 
             
-            //DataSet data = set[testFold].next();
-       
+               //Where to save the model
+               File locationTosave = new File(home + File.separator + "Desktop" + File.separator + "unetSave[" + testFold + "]" + ".zip");
+               boolean saveUpdater = false;
             
-            Evaluation eval = model.evaluate(set[testFold], set[testFold].getLabels());
-    		System.out.println(eval.stats());
-            //System.out.println(names);
-            //INDArray images = data.getLabels();
-            //System.out.println(images);
-
-          //Where to save the model
-            File locationTosave = new File("C:\\Users\\Subroto\\Desktop\\unetSave"+ "["+ testFold +"]" + ".zip");
+               //ModelSerializer needs Model name, saveUpdater ad Location of saving the model
             
-            boolean saveUpdater = false;
-            
-            //ModelSerializer needs Model name, saveUpdater ad Location of saving the model
-            
-            //ModelSerializer.writeModel(model,locationTosave,saveUpdater);
-            testFold++;
+               ModelSerializer.writeModel(model,locationTosave,saveUpdater);
+               testFold++;
             }
             
-            
-            //Evaluation eval = model.evaluateROC(imageDataSetIterator);
-            //log.info(eval.stats(true));
-            
-
-            //model.setListeners(new StatsListener(statsStorage));
-            
-            //log.warn(model.summary());
-            
-            /*log.info("*****SAVE MODEL******");
-            
-            //Where to save the model
-            File locationTosave = new File("C:\\Users\\Subroto\\Desktop\\unet_save3.zip");
-            
-            boolean saveUpdater = false;
-            
-            //ModelSerializer needs Model name, saveUpdater ad Location of saving the model
-            
-            ModelSerializer.writeModel(model,locationTosave,saveUpdater);
-            */
-
+           
             log.info("*****EVALUATE MODEL******");
             NativeImageLoader loader = new NativeImageLoader(HEIGHT, WIDTH, CHANNELS);
             BufferedImage image = ImageIO.read(new File(pathToImage));
@@ -281,7 +197,7 @@ public class LearningKfold {
     	              bufferedImage.setRGB(j,i,newColor.getRGB());
                     }
                 }
-                //ImageIO.write(bufferedImage,"png",new File("C:\\Users\\Subroto\\Desktop\\outputUnet20.png"));
+                //ImageIO.write(bufferedImage,"tif",new File(home + File.separator + "Desktop" + File.separator + "outputUnet.tif"));
 //                float[] values = out.toFloatVector();
 //                System.out.println(Arrays.toString(values));
             }*/

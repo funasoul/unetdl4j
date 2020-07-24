@@ -51,18 +51,21 @@ public class UnetLoadAndTest {
 
 	    public static void main(String[] args) {
 	        try {
-	            // This is for setting the path to test file
+	            
+	        	String home = System.getProperty("user.home");
+	        	
 	            String pathToImage;
 	            if (args.length > 0) {
 	                pathToImage = args[0];
 	            } else {
-	                pathToImage = "C:\\Users\\Subroto\\Desktop\\Raw images\\F01_621w1_crop13.tif";
+	            	pathToImage = home + File.separator + "Desktop" + File.separator + "Raw images" + File.separator + "F01_621w1_crop13.tif";
+	            	//pathToImage = "C:\\Users\\Subroto\\Desktop\\Raw images\\F01_621w1_crop13.tif";
 	            }
 	            
 	            
                 log.info("*****LOAD MODEL******");
 	            //Location where the model is saved
-	            File locationTosave = new File("C:\\Users\\Subroto\\Desktop\\unet_save1.zip");
+                File locationTosave = new File(home + File.separator + "Desktop" + File.separator + "unetSave.zip");
 	            ComputationGraph model  = ModelSerializer.restoreComputationGraph(locationTosave); 
 
 	            
@@ -93,7 +96,7 @@ public class UnetLoadAndTest {
 //	                      bufferedImage.setRGB(i,j,new Color(gray,gray,gray).getRGB());
 	                    }
 	                }
-	                ImageIO.write(bufferedImage,"tif",new File("C:\\Users\\Subroto\\Desktop\\Inference(100x50)\\inf1.tif"));
+	                ImageIO.write(bufferedImage,"png",new File(home + File.separator + "Desktop" + File.separator + "outputUnet.png"));
 	            }
 	        } catch (Exception e) {
 	            System.err.println("Oooooops");
