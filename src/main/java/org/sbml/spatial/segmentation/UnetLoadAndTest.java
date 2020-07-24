@@ -13,7 +13,6 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-
 //This is for loading the saved UNet model and then testing it.
 public class UnetLoadAndTest {
 

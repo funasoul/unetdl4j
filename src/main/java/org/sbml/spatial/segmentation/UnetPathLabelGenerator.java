@@ -8,6 +8,7 @@ import org.datavec.image.loader.NativeImageLoader;
 import java.io.IOException;
 import java.net.URI;
 
+
 public class UnetPathLabelGenerator implements PathLabelGenerator {
   //private NativeImageLoader imageLoader = new NativeImageLoader(256,256,1);
   private NativeImageLoader imageLoader = new NativeImageLoader(128,128,1);

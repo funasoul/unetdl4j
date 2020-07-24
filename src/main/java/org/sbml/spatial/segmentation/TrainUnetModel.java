@@ -29,7 +29,6 @@ import java.util.HashMap;
 import java.util.Map;
 //import org.deeplearning4j.zoo.ZooModel;
 
-
 public class TrainUnetModel {
 
   private static final Logger log = LoggerFactory.getLogger(TrainUnetModel.class);

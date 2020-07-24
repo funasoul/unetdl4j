@@ -25,7 +25,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 //This class is for training the UNet model on any number of images and then testing it.
-
 public class UnetTrainAndTest {
 
 	    private static final Logger log = LoggerFactory.getLogger(UnetTrainAndTest.class);

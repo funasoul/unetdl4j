@@ -9,7 +9,6 @@ import java.io.File;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 
-
 public class UnetIOU {
 	private static final Logger log = LoggerFactory.getLogger(UnetIOU.class);
     private static final int WIDTH = 128;
