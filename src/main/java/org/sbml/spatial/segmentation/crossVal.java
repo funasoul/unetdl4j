@@ -22,7 +22,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-
 public class crossVal {
 	
 	private static final Logger log = LoggerFactory.getLogger(crossVal.class);
