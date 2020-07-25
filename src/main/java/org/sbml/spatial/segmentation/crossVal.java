@@ -39,8 +39,8 @@ public class crossVal {
             
             DataNormalization scaler = new ImagePreProcessingScaler(); // scale image between 0 and 1
             UnetPathLabelGenerator labeler = new UnetPathLabelGenerator();
-            //File rootDir = new File("C:\\Users\\Subroto\\Desktop\\small_dataset");
-            File rootDir = new File(home + File.separator + "Desktop" + File.separator + "small_dataset");
+            //File rootDir = new File("C:\\Users\\Subroto\\small_dataset");
+            File rootDir = new File(home + File.separator + "small_dataset");
             String[] allowedExtensions = BaseImageLoader.ALLOWED_FORMATS;
             Random rng = new Random();
             FileSplit fileSplit = new FileSplit(rootDir,allowedExtensions,rng);
@@ -118,8 +118,8 @@ public class crossVal {
                
 
             //Now saving the model weights so that it can be tested later with the corresponding testfold. Need a method to save the testfold so that the images and labels can be separated. 
-            //File locationTosave = new File("C:\\Users\\Subroto\\Desktop\\unetSave"+ "["+ testFold +"]" + ".zip"); //So that I know which testFold to test this model against
-            File locationTosave = new File(home + File.separator + "Desktop" + File.separator + "unetSave[" + testFold + "]" + ".zip");
+            //File locationTosave = new File("C:\\Users\\Subroto\\unetSave"+ "["+ testFold +"]" + ".zip"); //So that I know which testFold to test this model against
+            File locationTosave = new File(home + File.separator + "unetSave[" + testFold + "]" + ".zip");
             boolean saveUpdater = false;
             ModelSerializer.writeModel(model,locationTosave,saveUpdater);
             testFold++;

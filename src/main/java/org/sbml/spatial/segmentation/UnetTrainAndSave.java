@@ -66,7 +66,7 @@ public class UnetTrainAndSave {
 	            DataNormalization scaler = new ImagePreProcessingScaler(); // scale image between 0 and 1
 	            UnetPathLabelGenerator labeler = new UnetPathLabelGenerator();
 
-	            File rootDir = new File(home + File.separator + "Desktop" + File.separator + "small_dataset");
+	            File rootDir = new File(home + File.separator + "small_dataset");
 	            String[] allowedExtensions = BaseImageLoader.ALLOWED_FORMATS;
 	            Random rng = new Random();
 	            FileSplit inputSplit = new FileSplit(rootDir,allowedExtensions,rng);
@@ -97,7 +97,7 @@ public class UnetTrainAndSave {
 	            log.info("*****SAVE MODEL******");
 	            
 	            //Location for saving the model
-	            File locationTosave = new File(home + File.separator + "Desktop" + File.separator + "unetSave.zip");
+	            File locationTosave = new File(home + File.separator + "unetSave.zip");
 	            boolean saveUpdater = false;
 	            //ModelSerializer needs Model name, Location of saving the model and saveUpdater. 
 	            ModelSerializer.writeModel(model,locationTosave,saveUpdater);

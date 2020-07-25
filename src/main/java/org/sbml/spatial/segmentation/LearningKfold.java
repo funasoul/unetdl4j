@@ -67,13 +67,13 @@ public class LearningKfold {
             if (args.length > 0) {
                 pathToImage = args[0];
             } else {
-                pathToImage = home + File.separator + "Desktop" + File.separator + "Cell images" + File.separator + "F01_202w1_crop17.tif";
+                pathToImage = home + File.separator + "Raw images" + File.separator + "F01_621w1_crop13.tif";
                 //System.out.println(pathToImage);    
             }
 
             DataNormalization scaler = new ImagePreProcessingScaler(); // scale image between 0 and 1
             UnetPathLabelGenerator labeler = new UnetPathLabelGenerator();
-            File rootDir = new File(home + File.separator + "Desktop" + File.separator + "small_dataset");
+            File rootDir = new File(home + File.separator + "small_dataset");
             String[] allowedExtensions = BaseImageLoader.ALLOWED_FORMATS;
             Random rng = new Random();
             FileSplit fileSplit = new FileSplit(rootDir,allowedExtensions,rng);
@@ -152,7 +152,7 @@ public class LearningKfold {
                   } 
             
                //Where to save the model
-               File locationTosave = new File(home + File.separator + "Desktop" + File.separator + "unetSave[" + testFold + "]" + ".zip");
+               File locationTosave = new File(home + File.separator  + "unetSave[" + testFold + "]" + ".zip");
                boolean saveUpdater = false;
             
                //ModelSerializer needs Model name, saveUpdater ad Location of saving the model
@@ -197,7 +197,7 @@ public class LearningKfold {
     	              bufferedImage.setRGB(j,i,newColor.getRGB());
                     }
                 }
-                //ImageIO.write(bufferedImage,"tif",new File(home + File.separator + "Desktop" + File.separator + "outputUnet.tif"));
+                //ImageIO.write(bufferedImage,"tif",new File(home + File.separator + "outputUnet.tif"));
 //                float[] values = out.toFloatVector();
 //                System.out.println(Arrays.toString(values));
             }*/

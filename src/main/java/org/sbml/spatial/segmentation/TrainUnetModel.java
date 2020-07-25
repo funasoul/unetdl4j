@@ -79,13 +79,13 @@ public class TrainUnetModel {
       if (args.length > 0) {
         pathToImage = args[0];
       } else {
-    	  pathToImage = home + File.separator + "Desktop" + File.separator + "Cell images" + File.separator + "F01_202w1_crop17.tif";
+    	  pathToImage = home + File.separator + "Raw images" + File.separator + "F01_621w1_crop13.tif";
       }
 
       DataNormalization scaler = new ImagePreProcessingScaler(); // scale image between 0 and 1
       UnetPathLabelGenerator labeler = new UnetPathLabelGenerator();
 
-      File rootDir = new File(home + File.separator + "Desktop" + File.separator + "small_dataset");
+      File rootDir = new File(home + File.separator + "small_dataset");
       String[] allowedExtensions = BaseImageLoader.ALLOWED_FORMATS;
       Random rng = new Random();
       FileSplit inputSplit = new FileSplit(rootDir,allowedExtensions,rng);
@@ -98,7 +98,7 @@ public class TrainUnetModel {
 
       UIServer uiServer = UIServer.getInstance();
 
-      //StatsStorage statsStorage = new FileStatsStorage(new File("C:\\Users\\Subroto\\Desktop\\StatsLog"));
+      //StatsStorage statsStorage = new FileStatsStorage(new File("C:\\Users\\Subroto\\StatsLog"));
 
       //uiServer.attach(statsStorage);
 
@@ -154,7 +154,7 @@ public class TrainUnetModel {
             bufferedImage.setRGB(i,j,new Color(gray,gray,gray).getRGB());
           }
         }
-        ImageIO.write(bufferedImage,"png",new File(home + File.separator + "Desktop" + File.separator + "outputUnet.png"));
+        ImageIO.write(bufferedImage,"png",new File(home + File.separator + "outputUnet.png"));
        }
     } catch (Exception e) {
       System.err.println("Oooooops");

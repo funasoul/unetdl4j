@@ -26,8 +26,8 @@ public class UnetIOU {
             if (args.length > 0) {
                 pathToGroundTruth = args[0];
             } else {
-            	pathToGroundTruth = home + File.separator + "Desktop" + File.separator + "Inference(300x100)" + File.separator + "gt_20.tif";
-                //pathToGroundTruth = "C:\\Users\\Subroto\\Desktop\\Inference(300x100)\\gt_20.tif";
+            	pathToGroundTruth = home + File.separator + "Inference(300x100)" + File.separator + "gt_20.tif";
+                //pathToGroundTruth = "C:\\Users\\Subroto\\Inference(300x100)\\gt_20.tif";
             }
              
            //This is for setting the path to inferred image 
@@ -35,8 +35,8 @@ public class UnetIOU {
 	        if (args.length > 0) {
 	            pathToInferredImage = args[0];
 	        } else {
-	            pathToInferredImage =home + File.separator + "Desktop" + File.separator + "Inference(300x100)" + File.separator + "inf_20.tif";
-	        	//pathToInferredImage = "C:\\Users\\Subroto\\Desktop\\Inference(300x100)\\inf_20.tif";
+	            pathToInferredImage =home + File.separator + "Inference(300x100)" + File.separator + "inf_20.tif";
+	        	//pathToInferredImage = "C:\\Users\\Subroto\\Inference(300x100)\\inf_20.tif";
 	        }   
 	        
             
