@@ -347,5 +347,6 @@ $RECYCLE.BIN/
 dataset/
 small_dataset/
 Raw images/
+Inference(300x100)/
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,linux,windows,emacs,vim,eclipse,jetbrains+all,netbeans,java,maven
