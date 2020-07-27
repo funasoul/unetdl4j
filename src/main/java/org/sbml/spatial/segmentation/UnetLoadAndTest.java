@@ -51,20 +51,21 @@ public class UnetLoadAndTest {
 	    public static void main(String[] args) {
 	        try {
 	            
-	        	String home = System.getProperty("user.home");
+	        	//String home = System.getProperty("user.home");
+	        	String directory = System.getProperty("user.dir");
 	        	
 	            String pathToImage;
 	            if (args.length > 0) {
 	                pathToImage = args[0];
 	            } else {
-	            	pathToImage = home + File.separator + "Raw images" + File.separator + "F01_621w1_crop13.tif";
-	            	//pathToImage = "C:\\Users\\Subroto\\Raw images\\F01_621w1_crop13.tif";
+	            	pathToImage = directory + File.separator + "dataset" + File.separator + "Raw images" + File.separator + "F01_621w1_crop13.tif";
 	            }
 	            
 	            
                 log.info("*****LOAD MODEL******");
 	            //Location where the model is saved
-                File locationTosave = new File(home + File.separator + "unetSave.zip");
+                //File locationTosave = new File(home + File.separator + "unetSave.zip"); //Depends upon where the model weights are actually saved
+                File locationTosave = new File(directory + File.separator + "dataset" + File.separator + "unetSave.zip");
 	            ComputationGraph model  = ModelSerializer.restoreComputationGraph(locationTosave); 
 
 	            
@@ -95,7 +96,8 @@ public class UnetLoadAndTest {
 //	                      bufferedImage.setRGB(i,j,new Color(gray,gray,gray).getRGB());
 	                    }
 	                }
-	                ImageIO.write(bufferedImage,"png",new File(home + File.separator + "outputUnet.png"));
+	                ImageIO.write(bufferedImage,"tif",new File(directory + File.separator + "dataset" + File.separator + "outputUnet.tif"));
+	                //ImageIO.write(bufferedImage,"tif",new File(home + File.separator + "outputUnet.tif"));
 	            }
 	        } catch (Exception e) {
 	            System.err.println("Oooooops");

@@ -34,13 +34,14 @@ public class crossVal {
 		try {
 			
             int batchSize = 1;
-            String home = System.getProperty("user.home");
-            System.out.println(home);
-            
+            String directory = System.getProperty("user.dir");
+
+            //String home = System.getProperty("user.dir");
+
             DataNormalization scaler = new ImagePreProcessingScaler(); // scale image between 0 and 1
             UnetPathLabelGenerator labeler = new UnetPathLabelGenerator();
-            //File rootDir = new File("C:\\Users\\Subroto\\small_dataset");
-            File rootDir = new File(home + File.separator + "small_dataset");
+            //File rootDir = new File("C:\\Users\\Subroto\\unetdl4j\\dataset\\small_dataset");
+            File rootDir = new File(directory + File.separator + "dataset" + File.separator + "small_dataset");
             String[] allowedExtensions = BaseImageLoader.ALLOWED_FORMATS;
             Random rng = new Random();
             FileSplit fileSplit = new FileSplit(rootDir,allowedExtensions,rng);
@@ -86,6 +87,7 @@ public class crossVal {
                 set[i].setPreProcessor(scaler);
     			
     		}
+    		
     		int  numEpochs = 10;
             
             Map<Integer, Double> learningScheduleMap = new HashMap<>();
@@ -99,18 +101,17 @@ public class crossVal {
         //Training the model for cross validation
     		int testFold=0;
             while(testFold<k){
-            	//System.out.println("Testfold number:" + testFold + "   k value: " + k);
-       
             ComputationGraph model  = UNet.builder().updater(new Adam(1e-4)).build().init(); //Initializing a new model 
+            model.addListeners(new ScoreIterationListener());
             //System.out.println("Initializing new model");
             for(i=0; i<k; i++) {
+	
                 if(i==testFold){
             	    continue; //Model is not trained on the testfold
             	}
                 else
                 {
                 	System.out.println("fitting model");  //Model gets trained on all folds except the testFold
-                	model.addListeners(new ScoreIterationListener());
                 	model.fit(set[i], numEpochs);    
                }
                 
@@ -118,8 +119,8 @@ public class crossVal {
                
 
             //Now saving the model weights so that it can be tested later with the corresponding testfold. Need a method to save the testfold so that the images and labels can be separated. 
-            //File locationTosave = new File("C:\\Users\\Subroto\\unetSave"+ "["+ testFold +"]" + ".zip"); //So that I know which testFold to test this model against
-            File locationTosave = new File(home + File.separator + "unetSave[" + testFold + "]" + ".zip");
+            File locationTosave = new File(directory + File.separator + "dataset" + File.separator + "unetSave[" + testFold + "]" + ".zip");  //So that I know which testFold to test this model against
+            //File locationTosave = new File(home + File.separator + "unetSave[" + testFold + "]" + ".zip");
             boolean saveUpdater = false;
             ModelSerializer.writeModel(model,locationTosave,saveUpdater);
             testFold++;

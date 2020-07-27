@@ -11,12 +11,12 @@ import org.deeplearning4j.optimize.listeners.ScoreIterationListener;
 import org.deeplearning4j.ui.api.UIServer;
 import org.deeplearning4j.ui.model.stats.StatsListener;
 import org.deeplearning4j.ui.model.storage.InMemoryStatsStorage;
+import org.deeplearning4j.zoo.ZooModel;
 import org.deeplearning4j.zoo.model.UNet;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
 import org.nd4j.linalg.dataset.api.preprocessor.DataNormalization;
 import org.nd4j.linalg.dataset.api.preprocessor.ImagePreProcessingScaler;
-import org.nd4j.linalg.learning.config.Adam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.File;
@@ -27,7 +27,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
-//import org.deeplearning4j.zoo.ZooModel;
+//import org.nd4j.linalg.learning.config.Adam;
 
 public class TrainUnetModel {
 
@@ -74,18 +74,21 @@ public class TrainUnetModel {
   public static void main(String[] args) {
     try {
       int batchSize = 10;
-      String home = System.getProperty("user.home");
+      //String home = System.getProperty("user.home");
+      
+      String directory = System.getProperty("user.dir");
+      
       String pathToImage;
       if (args.length > 0) {
         pathToImage = args[0];
       } else {
-    	  pathToImage = home + File.separator + "Raw images" + File.separator + "F01_621w1_crop13.tif";
+    	  pathToImage = directory + File.separator + "dataset" + File.separator + "Raw images" + File.separator + "F01_621w1_crop13.tif";
       }
 
       DataNormalization scaler = new ImagePreProcessingScaler(); // scale image between 0 and 1
       UnetPathLabelGenerator labeler = new UnetPathLabelGenerator();
 
-      File rootDir = new File(home + File.separator + "small_dataset");
+      File rootDir = new File(directory + File.separator + "dataset" + File.separator + "small_dataset");
       String[] allowedExtensions = BaseImageLoader.ALLOWED_FORMATS;
       Random rng = new Random();
       FileSplit inputSplit = new FileSplit(rootDir,allowedExtensions,rng);
@@ -111,14 +114,14 @@ public class TrainUnetModel {
 
       int numEpochs = 1;
 
-      ComputationGraph model  = UNet.builder().updater(new Adam(1e-4)).build().init();
-      //	            ComputationGraph model  = UNet.builder().updater(new Adam(new MapSchedule(ScheduleType.ITERATION, learningScheduleMap))).build().init();
+      //ComputationGraph model  = UNet.builder().updater(new Adam(1e-4)).build().init();
+      //ComputationGraph model  = UNet.builder().updater(new Adam(new MapSchedule(ScheduleType.ITERATION, learningScheduleMap))).build().init();
       
       
       //To change the number of input channels from 3 to 1
-        //ZooModel unet = UNet.builder().build();
-	    //unet.setInputShape(new int[][]{{1, 128, 128}});
-	    //ComputationGraph model = (ComputationGraph) unet.init();
+        ZooModel unet = UNet.builder().build();
+	    unet.setInputShape(new int[][]{{1, 128, 128}});
+	    ComputationGraph model = (ComputationGraph) unet.init();
 	    
 	    StatsStorage ss = new InMemoryStatsStorage();
 	    uiServer.attach(ss);
@@ -154,9 +157,10 @@ public class TrainUnetModel {
             bufferedImage.setRGB(i,j,new Color(gray,gray,gray).getRGB());
           }
         }
-        ImageIO.write(bufferedImage,"png",new File(home + File.separator + "outputUnet.png"));
+        ImageIO.write(bufferedImage,"tif",new File(directory + File.separator + "outputUnet.tif"));
+        //ImageIO.write(bufferedImage,"tif",new File(home + File.separator + "outputUnet.tif"));
        }
-    } catch (Exception e) {
+     } catch (Exception e) {
       System.err.println("Oooooops");
       e.printStackTrace();
     }

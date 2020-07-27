@@ -63,21 +63,23 @@ public class UnetTrainAndTest {
 	    public static void main(String[] args) {
 	        try {
 	            int batchSize = 10;
-	            String home = System.getProperty("user.home");
+	            //String home = System.getProperty("user.home");
+	            
+	            String directory = System.getProperty("user.dir");
+	            
 	            // This is for setting the path to test file
 	            String pathToImage;
 	            if (args.length > 0) {
 	                pathToImage = args[0];
 	            } else {
-	            	pathToImage = home + File.separator + "Raw images" + File.separator + "F01_621w1_crop13.tif";
-	                //pathToImage = "C:\\Users\\Subroto\\Raw images\\F01_621w1_crop13.tif";
+	            	pathToImage = directory + File.separator + "dataset" + File.separator + "Raw images" + File.separator + "F01_621w1_crop13.tif";
 	            }
 
 
 	            DataNormalization scaler = new ImagePreProcessingScaler(); // scale image between 0 and 1
 	            UnetPathLabelGenerator labeler = new UnetPathLabelGenerator();
 
-	            File rootDir = new File(home + File.separator + "small_dataset");
+	            File rootDir = new File(directory + File.separator + "dataset" + File.separator + "small_dataset");
 	            String[] allowedExtensions = BaseImageLoader.ALLOWED_FORMATS;
 	            Random rng = new Random();
 	            FileSplit inputSplit = new FileSplit(rootDir,allowedExtensions,rng);
@@ -133,7 +135,8 @@ public class UnetTrainAndTest {
 //	                      bufferedImage.setRGB(i,j,new Color(gray,gray,gray).getRGB());
 	                    }
 	                }
-	                ImageIO.write(bufferedImage,"tif",new File(home + File.separator + "outputUnet.png"));
+	                ImageIO.write(bufferedImage,"tif",new File(directory + File.separator + "outputUnet.tif"));
+	                //ImageIO.write(bufferedImage,"tif",new File(home + File.separator + "outputUnet.tif"));
 	            }
 	        } catch (Exception e) {
 	            System.err.println("Oooooops");

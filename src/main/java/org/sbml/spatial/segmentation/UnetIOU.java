@@ -19,15 +19,15 @@ public class UnetIOU {
     public static void main(String[] args) {
         try {
         	
-        	String home = System.getProperty("user.home");
-        	
-            //This is for setting the path to ground truth image
+        	//String home = System.getProperty("user.home");
+        	String directory = System.getProperty("user.dir");
+            
+        	//This is for setting the path to ground truth image
             String pathToGroundTruth;
             if (args.length > 0) {
                 pathToGroundTruth = args[0];
             } else {
-            	pathToGroundTruth = home + File.separator + "Inference(300x100)" + File.separator + "gt_20.tif";
-                //pathToGroundTruth = "C:\\Users\\Subroto\\Inference(300x100)\\gt_20.tif";
+            	pathToGroundTruth = directory + File.separator + "dataset" + File.separator + "Inference(300x100)" + File.separator + "gt_20.tif";
             }
              
            //This is for setting the path to inferred image 
@@ -35,8 +35,7 @@ public class UnetIOU {
 	        if (args.length > 0) {
 	            pathToInferredImage = args[0];
 	        } else {
-	            pathToInferredImage =home + File.separator + "Inference(300x100)" + File.separator + "inf_20.tif";
-	        	//pathToInferredImage = "C:\\Users\\Subroto\\Inference(300x100)\\inf_20.tif";
+	            pathToInferredImage = directory + File.separator + "dataset" + File.separator + "Inference(300x100)" + File.separator + "inf_20.tif";
 	        }   
 	        
             

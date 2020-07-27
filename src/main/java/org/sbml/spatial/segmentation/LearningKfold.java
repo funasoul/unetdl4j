@@ -61,19 +61,21 @@ public class LearningKfold {
 		try {
             
             int batchSize = 1;
-            String home = System.getProperty("user.home");
+            //String home = System.getProperty("user.home");
  
+            String directory = System.getProperty("user.dir");
+            
             String pathToImage;
             if (args.length > 0) {
                 pathToImage = args[0];
             } else {
-                pathToImage = home + File.separator + "Raw images" + File.separator + "F01_621w1_crop13.tif";
+                pathToImage = directory + File.separator + "dataset" + File.separator + "Raw images" + File.separator + "F01_621w1_crop13.tif";
                 //System.out.println(pathToImage);    
             }
 
             DataNormalization scaler = new ImagePreProcessingScaler(); // scale image between 0 and 1
             UnetPathLabelGenerator labeler = new UnetPathLabelGenerator();
-            File rootDir = new File(home + File.separator + "small_dataset");
+            File rootDir = new File(directory + File.separator + "dataset" + File.separator + "small_dataset");
             String[] allowedExtensions = BaseImageLoader.ALLOWED_FORMATS;
             Random rng = new Random();
             FileSplit fileSplit = new FileSplit(rootDir,allowedExtensions,rng);
@@ -137,6 +139,8 @@ public class LearningKfold {
             	System.out.println("Testfold number:" + testFold + "   k value: " + k);
        
                 ComputationGraph model  = UNet.builder().updater(new Adam(1e-4)).build().init();
+                model.addListeners(new ScoreIterationListener());
+                
                 System.out.println("Initializing new model");
                 for(i=0; i<k; i++) {
                     if(i==testFold){
@@ -146,14 +150,14 @@ public class LearningKfold {
                     else
                     {
                 	       System.out.println("fitting model");
-                	       model.addListeners(new ScoreIterationListener());
                 	       model.fit(set[i], numEpochs);    
                     }    
                   } 
             
                //Where to save the model
-               File locationTosave = new File(home + File.separator  + "unetSave[" + testFold + "]" + ".zip");
-               boolean saveUpdater = false;
+               //File locationTosave = new File(home + File.separator  + "unetSave[" + testFold + "]" + ".zip");
+                File locationTosave = new File(directory + File.separator + "dataset" + File.separator + "unetSave[" + testFold + "]" + ".zip");
+                boolean saveUpdater = false;
             
                //ModelSerializer needs Model name, saveUpdater ad Location of saving the model
             
