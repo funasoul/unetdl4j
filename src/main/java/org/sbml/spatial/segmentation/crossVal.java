@@ -35,13 +35,13 @@ public class crossVal {
 			
             int batchSize = 1;
             String directory = System.getProperty("user.dir");
+            String dataPath = directory + File.separator + "dataset";
 
             //String home = System.getProperty("user.dir");
 
             DataNormalization scaler = new ImagePreProcessingScaler(); // scale image between 0 and 1
             UnetPathLabelGenerator labeler = new UnetPathLabelGenerator();
-            //File rootDir = new File("C:\\Users\\Subroto\\unetdl4j\\dataset\\small_dataset");
-            File rootDir = new File(directory + File.separator + "dataset" + File.separator + "small_dataset");
+            File rootDir = new File(dataPath + File.separator + "small_dataset");
             String[] allowedExtensions = BaseImageLoader.ALLOWED_FORMATS;
             Random rng = new Random();
             FileSplit fileSplit = new FileSplit(rootDir,allowedExtensions,rng);

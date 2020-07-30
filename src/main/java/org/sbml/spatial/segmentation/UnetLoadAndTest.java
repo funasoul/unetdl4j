@@ -53,19 +53,20 @@ public class UnetLoadAndTest {
 	            
 	        	//String home = System.getProperty("user.home");
 	        	String directory = System.getProperty("user.dir");
+	        	String dataPath = directory + File.separator + "dataset";
 	        	
 	            String pathToImage;
 	            if (args.length > 0) {
 	                pathToImage = args[0];
 	            } else {
-	            	pathToImage = directory + File.separator + "dataset" + File.separator + "Raw images" + File.separator + "F01_621w1_crop13.tif";
+	            	pathToImage = dataPath + File.separator + "raw_images" + File.separator + "F01_621w1_crop13.tif";
 	            }
 	            
 	            
                 log.info("*****LOAD MODEL******");
 	            //Location where the model is saved
                 //File locationTosave = new File(home + File.separator + "unetSave.zip"); //Depends upon where the model weights are actually saved
-                File locationTosave = new File(directory + File.separator + "dataset" + File.separator + "unetSave.zip");
+                File locationTosave = new File(directory + File.separator + "unetSave.zip");
 	            ComputationGraph model  = ModelSerializer.restoreComputationGraph(locationTosave); 
 
 	            
@@ -96,7 +97,7 @@ public class UnetLoadAndTest {
 //	                      bufferedImage.setRGB(i,j,new Color(gray,gray,gray).getRGB());
 	                    }
 	                }
-	                ImageIO.write(bufferedImage,"tif",new File(directory + File.separator + "dataset" + File.separator + "outputUnet.tif"));
+	                ImageIO.write(bufferedImage,"tif",new File(directory + File.separator + "outputUnet.tif"));
 	                //ImageIO.write(bufferedImage,"tif",new File(home + File.separator + "outputUnet.tif"));
 	            }
 	        } catch (Exception e) {

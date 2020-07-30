@@ -66,20 +66,21 @@ public class UnetTrainAndTest {
 	            //String home = System.getProperty("user.home");
 	            
 	            String directory = System.getProperty("user.dir");
+	            String dataPath = directory + File.separator + "dataset";
 	            
 	            // This is for setting the path to test file
 	            String pathToImage;
 	            if (args.length > 0) {
 	                pathToImage = args[0];
 	            } else {
-	            	pathToImage = directory + File.separator + "dataset" + File.separator + "Raw images" + File.separator + "F01_621w1_crop13.tif";
+	            	pathToImage = dataPath + File.separator + "raw_images" + File.separator + "F01_621w1_crop13.tif";
 	            }
 
 
 	            DataNormalization scaler = new ImagePreProcessingScaler(); // scale image between 0 and 1
 	            UnetPathLabelGenerator labeler = new UnetPathLabelGenerator();
 
-	            File rootDir = new File(directory + File.separator + "dataset" + File.separator + "small_dataset");
+	            File rootDir = new File(dataPath + File.separator + "small_dataset");
 	            String[] allowedExtensions = BaseImageLoader.ALLOWED_FORMATS;
 	            Random rng = new Random();
 	            FileSplit inputSplit = new FileSplit(rootDir,allowedExtensions,rng);

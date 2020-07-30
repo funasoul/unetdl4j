@@ -64,18 +64,18 @@ public class LearningKfold {
             //String home = System.getProperty("user.home");
  
             String directory = System.getProperty("user.dir");
+            String dataPath = directory + File.separator + "dataset";
             
             String pathToImage;
             if (args.length > 0) {
                 pathToImage = args[0];
             } else {
-                pathToImage = directory + File.separator + "dataset" + File.separator + "Raw images" + File.separator + "F01_621w1_crop13.tif";
-                //System.out.println(pathToImage);    
+                pathToImage = dataPath + File.separator + "raw_images" + File.separator + "F01_621w1_crop13.tif";    
             }
 
             DataNormalization scaler = new ImagePreProcessingScaler(); // scale image between 0 and 1
             UnetPathLabelGenerator labeler = new UnetPathLabelGenerator();
-            File rootDir = new File(directory + File.separator + "dataset" + File.separator + "small_dataset");
+            File rootDir = new File(dataPath + File.separator + "small_dataset");
             String[] allowedExtensions = BaseImageLoader.ALLOWED_FORMATS;
             Random rng = new Random();
             FileSplit fileSplit = new FileSplit(rootDir,allowedExtensions,rng);
@@ -156,10 +156,10 @@ public class LearningKfold {
             
                //Where to save the model
                //File locationTosave = new File(home + File.separator  + "unetSave[" + testFold + "]" + ".zip");
-                File locationTosave = new File(directory + File.separator + "dataset" + File.separator + "unetSave[" + testFold + "]" + ".zip");
+                File locationTosave = new File(directory + File.separator + "unetSave[" + testFold + "]" + ".zip");
                 boolean saveUpdater = false;
             
-               //ModelSerializer needs Model name, saveUpdater ad Location of saving the model
+               //ModelSerializer needs Model name, saveUpdater and Location of saving the model
             
                ModelSerializer.writeModel(model,locationTosave,saveUpdater);
                testFold++;
