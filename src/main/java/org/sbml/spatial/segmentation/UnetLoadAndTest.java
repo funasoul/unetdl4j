@@ -68,7 +68,7 @@ public class UnetLoadAndTest {
 			// Location where the model is saved
 			// File locationTosave = new File(home + File.separator + "unetSave.zip");
 			// //Depends upon where the model weights are actually saved
-			File locationTosave = new File(directory + File.separator + "unetSave.zip");
+			File locationTosave = new File(directory + File.separator + "saveModel" + File.separator + "unetSave.zip");
 			ComputationGraph model = ModelSerializer.restoreComputationGraph(locationTosave);
 
 			log.info("*****EVALUATE MODEL******");
@@ -98,7 +98,8 @@ public class UnetLoadAndTest {
 //	                      bufferedImage.setRGB(i,j,new Color(gray,gray,gray).getRGB());
 					}
 				}
-				ImageIO.write(bufferedImage, "tif", new File(directory + File.separator + "outputUnet.tif"));
+				ImageIO.write(bufferedImage, "tif",
+						new File(directory + File.separator + "output" + File.separator + "outputUnet.tif"));
 				// ImageIO.write(bufferedImage,"tif",new File(home + File.separator +
 				// "outputUnet.tif"));
 			}

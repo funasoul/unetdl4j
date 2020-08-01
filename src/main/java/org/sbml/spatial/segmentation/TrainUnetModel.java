@@ -160,9 +160,8 @@ public class TrainUnetModel {
 						bufferedImage.setRGB(i, j, new Color(gray, gray, gray).getRGB());
 					}
 				}
-				ImageIO.write(bufferedImage, "tif", new File(directory + File.separator + "outputUnet.tif"));
-				// ImageIO.write(bufferedImage,"tif",new File(home + File.separator +
-				// "outputUnet.tif"));
+				ImageIO.write(bufferedImage, "tif",
+						new File(directory + File.separator + "output" + File.separator + "outputUnet.tif"));
 			}
 		} catch (Exception e) {
 			System.err.println("Oooooops");
